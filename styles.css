@@ -1,4 +1,9 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+CSS
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   background-color: #0b0e14;
@@ -14,9 +19,8 @@ body {
 .container {
   width: 100%;
   max-width: 420px;
-  padding: 15px;
-  text-align: center;
   height: 100vh;
+  padding: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,31 +30,52 @@ body {
 .screen {
   display: none;
   width: 100%;
+  height: 100%;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  animation: fadeIn 0.3s ease-in-out;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .screen.active {
   display: flex;
+  opacity: 1;
+  z-index: 10;
 }
 
 .logo-img {
-  width: 260px;
+  width: 240px;
   height: auto;
   border-radius: 24px;
   box-shadow: 0 0 30px rgba(204, 255, 0, 0.25);
 }
 
-h1, h2, h3 { color: #ccff00; margin-bottom: 10px; }
-p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom: 15px; }
+h1, h2, h3 {
+  color: #ccff00;
+  margin-bottom: 10px;
+}
 
-.highlight-text { font-size: 1.4rem; color: #ccff00; font-weight: bold; }
+p, .subtitle {
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.highlight-text {
+  font-size: 1.3rem;
+  color: #ccff00;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 20px;
+}
 
 .spinner {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border: 4px solid rgba(255, 255, 255, 0.1);
   border-top: 4px solid #ccff00;
   border-radius: 50%;
@@ -64,7 +89,7 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   padding: 20px;
   border-radius: 16px;
   border: 1px solid #22293a;
-  max-height: 85vh;
+  max-height: 90vh;
   overflow-y: auto;
   text-align: left;
 }
@@ -78,6 +103,11 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   color: #fff;
   border-radius: 8px;
   font-size: 0.95rem;
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: #ccff00;
 }
 
 .btn {
@@ -92,10 +122,27 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   text-align: center;
 }
 
-.btn-primary { background-color: #ccff00; color: #000000; }
-.btn-secondary { background-color: transparent; color: #ffffff; border: 1px solid #ffffff; }
-.btn-sm { padding: 8px; font-size: 0.85rem; width: auto; }
-.floating-btn { margin-top: 15px; }
+.btn-primary {
+  background-color: #ccff00;
+  color: #000000;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  width: auto;
+  margin-top: 8px;
+}
+
+.floating-btn {
+  margin-top: 15px;
+}
 
 .link-text {
   display: block;
@@ -106,6 +153,10 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   text-decoration: none;
 }
 
+.link-text:hover {
+  text-decoration: underline;
+}
+
 .header-home {
   display: flex;
   justify-content: space-between;
@@ -114,9 +165,9 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
 }
 
 .avatar-placeholder {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   background: #22293a;
-  padding: 8px;
+  padding: 8px 10px;
   border-radius: 50%;
 }
 
@@ -124,8 +175,16 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   margin-bottom: 15px;
+}
+
+.filters::-webkit-scrollbar {
+  height: 4px;
+}
+.filters::-webkit-scrollbar-thumb {
+  background: #22293a;
+  border-radius: 4px;
 }
 
 .filter-btn {
@@ -137,6 +196,11 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   font-size: 0.85rem;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.filter-btn:hover {
+  background: #ccff00;
+  color: #000;
 }
 
 .match-card {
@@ -154,5 +218,6 @@ p, .subtitle { color: #e0e0e0; font-size: 1rem; line-height: 1.4; margin-bottom:
   line-height: 1.3;
 }
 
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
