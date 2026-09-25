@@ -1,4 +1,3 @@
-CSS
 * {
   margin: 0;
   padding: 0;
@@ -110,7 +109,7 @@ p, .subtitle {
   border-color: #ccff00;
 }
 
-/* Contenedor especial para el input de Valor con símbolo de $ */
+/* Grupo para el input de Valor con símbolo de $ */
 .input-group {
   position: relative;
   width: 100%;
