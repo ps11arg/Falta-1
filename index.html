@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falta 1 - Splash Screen</title>
+  <title>Falta 1</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background-color: #0b0e14; /* Fondo oscuro acorde al logo */
+      background-color: #0b0e14;
       color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      text-align: center;
     }
 
     .step {
@@ -22,64 +29,97 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 20px;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.4s ease-in-out;
     }
 
     .active { display: flex; }
 
     /* Logo inicial */
     .logo-img {
-      width: 280px;
+      width: 260px;
       height: auto;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(204, 255, 0, 0.2);
+      border-radius: 24px;
+      box-shadow: 0 0 30px rgba(204, 255, 0, 0.25);
     }
 
-    /* Estilos de textos */
-    h1 { font-size: 2rem; color: #ccff00; margin-bottom: 15px; }
-    p { font-size: 1.2rem; color: #e0e0e0; max-width: 400px; line-height: 1.5; }
+    /* Textos */
+    h1 { font-size: 1.8rem; color: #ccff00; margin-bottom: 12px; }
+    p { font-size: 1.1rem; color: #e0e0e0; line-height: 1.5; }
 
     /* Spinner */
     .spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      border-top: 5px solid #ccff00;
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top: 4px solid #ccff00;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 15px;
     }
 
+    /* Pantalla 1: Login / Registro */
+    .login-box {
+      width: 100%;
+      background: #141824;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #22293a;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn-primary { background-color: #ccff00; color: #000000; }
+    .btn-secondary { background-color: transparent; color: #ffffff; border: 1px solid #ffffff; }
+
     @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- PASO 1: LOGO -->
-  <div id="step1" class="step active">
-    <img src="Logo Falta Uno.jfif" alt="Falta Uno Logo" class="logo-img">
-  </div>
+  <div class="container">
+    <!-- PASO 1 (0 a 3s): LOGO EN GRANDE -->
+    <div id="step1" class="step active">
+      <img src="logo.jpg" alt="Falta 1 Logo" class="logo-img">
+    </div>
 
-  <!-- PASO 2: BIENVENIDA -->
-  <div id="step2" class="step">
-    <h1>¡Te damos la bienvenida a Falta 1!</h1>
-    <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
-  </div>
+    <!-- PASO 2 (3 a 6s): BIENVENIDA -->
+    <div id="step2" class="step">
+      <h1>¡Te damos la bienvenida a Falta 1!</h1>
+      <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
+    </div>
 
-  <!-- PASO 3: MATCH DEPORTIVO -->
-  <div id="step3" class="step">
-    <p style="font-size: 1.5rem; color: #ccff00; font-weight: bold;">
-      El match deportivo que necesitabas... ⚽🏀🏐
-    </p>
-  </div>
+    <!-- PASO 3 (6 a 9s): MATCH DEPORTIVO -->
+    <div id="step3" class="step">
+      <p style="font-size: 1.4rem; color: #ccff00; font-weight: bold;">
+        El match deportivo que necesitabas... ⚽🏀🏐
+      </p>
+    </div>
 
-  <!-- PASO 4: CARGANDO -->
-  <div id="step4" class="step">
-    <div class="spinner"></div>
-    <p>Cargando...</p>
+    <!-- PASO 4 (9 a 12s): CARGANDO... -->
+    <div id="step4" class="step">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <!-- PASO 5 (12s en adelante): PANTALLA 1 - INICIO DE SESIÓN / REGISTRO -->
+    <div id="step5" class="step">
+      <div class="login-box">
+        <h1>FALTA 1</h1>
+        <p style="margin-bottom: 20px; font-size: 0.95rem;">Ingresá a tu cuenta para jugar</p>
+        <button class="btn btn-primary">Iniciar Sesión</button>
+        <button class="btn btn-secondary">Crear Cuenta</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -88,16 +128,11 @@
       document.getElementById('step' + stepNumber).classList.add('active');
     }
 
-    // Temporizadores de 3 segundos por etapa (3000ms)
+    // Tiempos exactos de transicion (3 segundos por paso)
     setTimeout(() => showStep(2), 3000); // 3 seg -> Bienvenida
     setTimeout(() => showStep(3), 6000); // 6 seg -> Match deportivo
     setTimeout(() => showStep(4), 9000); // 9 seg -> Cargando...
-
-    // 12 seg -> Redirección a la pantalla de Login / Registro
-    setTimeout(() => {
-      // Reemplazar esta URL por tu pantalla de inicio de sesión
-      window.location.href = "login.html"; 
-    }, 12000);
+    setTimeout(() => showStep(5), 12000); // 12 seg -> Pantalla 1 (Login / Registro)
   </script>
 
 </body>
