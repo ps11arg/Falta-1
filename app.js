@@ -1,4 +1,3 @@
-JavaScript
 let splashActivo = true;
 let temporizadores = [];
 
@@ -9,17 +8,24 @@ function irA(idPantalla) {
     temporizadores.forEach(t => clearTimeout(t));
   }
 
+  // Ocultar todas las pantallas
   document.querySelectorAll('.screen').forEach(el => {
     el.classList.remove('active');
   });
 
+  // Mostrar la pantalla de destino si existe
   const destino = document.getElementById(idPantalla);
   if (destino) {
     destino.classList.add('active');
+    // Forzar scroll al inicio de la tarjeta al cambiar de pantalla
+    const card = destino.querySelector('.card');
+    if (card) card.scrollTop = 0;
+  } else {
+    console.warn("No se encontró la pantalla con ID:", idPantalla);
   }
 }
 
-// Secuencia automática inicial de los 12 segundos
+// Secuencia automática inicial de los 12 segundos del Splash
 if (splashActivo) {
   temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-bienvenida'); }, 3000));
   temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-match'); }, 6000));
@@ -32,7 +38,7 @@ if (splashActivo) {
   }, 12000));
 }
 
-// Base de datos de Localidades principales de ejemplo por Provincia Argentina
+// Base de datos de Localidades por Provincia Argentina
 const localidadesPorProvincia = {
   "Buenos Aires": ["La Plata", "Mar del Plata", "Bahía Blanca", "San Isidro", "Tigre", "Quilmes", "Avellaneda", "Lanús", "Morón", "San Martín"],
   "CABA": ["Capital Federal"],
@@ -69,15 +75,17 @@ const barriosCABA = [
   "Puerto Madero", "Recoleta", "Retiro", "Saavedra", "San Cristóbal", "San Nicolás", 
   "San Telmo", "Vélez Sársfield", "Versalles", "Villa Crespo", "Villa del Parque", 
   "Villa Devoto", "Villa General Mitre", "Villa Lugano", "Villa Luro", "Villa Ortúzar", 
-  "Villa Pueyrredón", "Villa Real", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati", "Yrigoyen"
+  "Villa Pueyrredón", "Villa Real", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati"
 ];
 
-// Función para actualizar Localidades y Barrios dinámicamente según lo solicitado
+// Función optimizada para actualizar Localidades y Barrios dinámicamente
 function actualizarLocalidadesYBarrios() {
   const provinciaSelect = document.getElementById('select-provincia');
   const localidadSelect = document.getElementById('select-localidad');
   const barrioSelect = document.getElementById('select-barrio');
   
+  if (!provinciaSelect || !localidadSelect || !barrioSelect) return;
+
   const provinciaSeleccionada = provinciaSelect.value;
 
   // Limpiar selects dependientes
@@ -86,7 +94,7 @@ function actualizarLocalidadesYBarrios() {
 
   if (!provinciaSeleccionada) return;
 
-  // 1. Cargar Localidades de la provincia elegida
+  // 1. Cargar Localidades
   const localidades = localidadesPorProvincia[provinciaSeleccionada] || [];
   localidades.forEach(loc => {
     const opt = document.createElement('option');
@@ -95,8 +103,7 @@ function actualizarLocalidadesYBarrios() {
     localidadSelect.appendChild(opt);
   });
 
-  // 2. Lógica para el campo BARRIO según la regla indicada:
-  // "si la opcion es la provincia repetir provincia. si la opcion es CABA , poner todos los barrios de CABA."
+  // 2. Cargar Barrios (Regla: Si es CABA, lista de barrios; sino, repite la provincia)
   if (provinciaSeleccionada === "CABA") {
     barriosCABA.forEach(barrio => {
       const opt = document.createElement('option');
@@ -105,26 +112,27 @@ function actualizarLocalidadesYBarrios() {
       barrioSelect.appendChild(opt);
     });
   } else {
-    // Repetir el nombre de la provincia
     const opt = document.createElement('option');
     opt.value = provinciaSeleccionada;
     opt.textContent = provinciaSeleccionada;
     barrioSelect.appendChild(opt);
-    barrioSelect.value = provinciaSeleccionada; // Opcional: dejarlo seleccionado por defecto
+    barrioSelect.value = provinciaSeleccionada;
   }
 }
 
 // Validación de Registro
 function validarRegistro() {
-  const p1 = document.getElementById('reg-pass').value;
-  const p2 = document.getElementById('reg-pass2').value;
+  const p1 = document.getElementById('reg-pass');
+  const p2 = document.getElementById('reg-pass2');
 
-  if (!p1 || !p2) {
+  if (!p1 || !p2) return;
+
+  if (!p1.value || !p2.value) {
     alert("Por favor completa las contraseñas.");
     return;
   }
 
-  if (p1 !== p2) {
+  if (p1.value !== p2.value) {
     alert("Las contraseñas no coinciden. Verificalas.");
     return;
   }
