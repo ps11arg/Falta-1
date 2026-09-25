@@ -1,203 +1,142 @@
-HTML
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falta 1</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+let splashActivo = true;
+let temporizadores = [];
 
-  <div class="container">
-    
-    <!-- PASO 1: LOGO (0s - 3s) -->
-    <div id="pantalla-logo" class="screen active">
-      <img src="logo.jpg" alt="Falta 1 Logo" class="logo-img">
-    </div>
+// Función para cambiar de pantalla de manera limpia
+function irA(idPantalla) {
+  if (splashActivo) {
+    splashActivo = false;
+    temporizadores.forEach(t => clearTimeout(t));
+  }
 
-    <!-- PASO 2: BIENVENIDA (3s - 6s) -->
-    <div id="pantalla-bienvenida" class="screen">
-      <h1>¡Te damos la bienvenida a Falta 1!</h1>
-      <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
-    </div>
+  // Ocultar todas las pantallas
+  document.querySelectorAll('.screen').forEach(el => {
+    el.classList.remove('active');
+  });
 
-    <!-- PASO 3: MATCH DEPORTIVO (6s - 9s) -->
-    <div id="pantalla-match" class="screen">
-      <p class="highlight-text">El match deportivo que necesitabas... ⚽🏀🏐</p>
-    </div>
+  // Mostrar la pantalla de destino si existe
+  const destino = document.getElementById(idPantalla);
+  if (destino) {
+    destino.classList.add('active');
+    // Forzar scroll al inicio de la tarjeta al cambiar de pantalla
+    const card = destino.querySelector('.card');
+    if (card) card.scrollTop = 0;
+  } else {
+    console.warn("No se encontró la pantalla con ID:", idPantalla);
+  }
+}
 
-    <!-- PASO 4: CARGANDO (9s - 12s) -->
-    <div id="pantalla-cargando" class="screen">
-      <div class="spinner"></div>
-      <p>Cargando...</p>
-    </div>
+// Secuencia automática inicial de los 12 segundos del Splash
+if (splashActivo) {
+  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-bienvenida'); }, 3000));
+  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-match'); }, 6000));
+  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-cargando'); }, 9000));
+  temporizadores.push(setTimeout(() => { 
+    if(splashActivo) {
+      splashActivo = false;
+      irA('pantalla-inicio'); 
+    }
+  }, 12000));
+}
 
-    <!-- PASO 5: INICIO / REGISTRO -->
-    <div id="pantalla-inicio" class="screen">
-      <div class="card">
-        <h1>FALTA 1</h1>
-        <p class="subtitle">El match deportivo que necesitabas</p>
-        <button class="btn btn-primary" onclick="irA('pantalla-login')">Iniciar Sesión</button>
-        <button class="btn btn-secondary" onclick="irA('pantalla-registro')">Crear Cuenta</button>
-      </div>
-    </div>
+// Base de datos de Localidades por Provincia Argentina
+const localidadesPorProvincia = {
+  "Buenos Aires": ["La Plata", "Mar del Plata", "Bahía Blanca", "San Isidro", "Tigre", "Quilmes", "Avellaneda", "Lanús", "Morón", "San Martín"],
+  "CABA": ["Capital Federal"],
+  "Catamarca": ["San Fernando del Valle de Catamarca", "Andalgalá", "Tinogasta"],
+  "Chaco": ["Resistencia", "Sáenz Peña", "Villa Ángela"],
+  "Chubut": ["Comodoro Rivadavia", "Trelew", "Puerto Madryn", "Rawson"],
+  "Córdoba": ["Córdoba Capital", "Villa Carlos Paz", "Río Cuarto", "San Francisco", "Villa María"],
+  "Corrientes": ["Corrientes Capital", "Goya", "Paso de los Libres"],
+  "Entre Ríos": ["Paraná", "Concordia", "Gualeguaychú", "Concepción del Uruguay"],
+  "Formosa": ["Formosa Capital", "Clorinda"],
+  "Jujuy": ["San Salvador de Jujuy", "San Pedro", "Palpalá"],
+  "La Pampa": ["Santa Rosa", "General Pico"],
+  "La Rioja": ["La Rioja Capital", "Chilecito"],
+  "Mendoza": ["Mendoza Capital", "San Rafael", "Godoy Cruz", "Guaymallén"],
+  "Misiones": ["Posadas", "Puerto Iguazú", "Oberá", "Eldorado"],
+  "Neuquén": ["Neuquén Capital", "San Martín de los Andes", "Cutral Có", "Plottier"],
+  "Río Negro": ["Bariloche", "General Roca", "Cipolletti", "Viedma"],
+  "Salta": ["Salta Capital", "San Ramón de la Nueva Orán", "Tartagal"],
+  "San Juan": ["San Juan Capital", "Rawson", "Rivadavia"],
+  "San Luis": ["San Luis Capital", "Villa Mercedes"],
+  "Santa Cruz": ["Río Gallegos", "Caleta Olivia", "El Calafate"],
+  "Santa Fe": ["Rosario", "Santa Fe Capital", "Rafaela", "Venado Tuerto"],
+  "Santiago del Estero": ["Santiago del Estero Capital", "La Banda", "Termas de Río Hondo"],
+  "Tierra del Fuego": ["Ushuaia", "Río Grande"],
+  "Tucumán": ["San Miguel de Tucumán", "Tafí Viejo", "Concepción"]
+};
 
-    <!-- LOGIN -->
-    <div id="pantalla-login" class="screen">
-      <div class="card">
-        <h2>Iniciar Sesión</h2>
-        <input type="text" class="input-field" placeholder="Usuario o Email">
-        <input type="password" class="input-field" placeholder="Contraseña">
-        <button class="btn btn-primary" onclick="irA('pantalla-home')">Ingresar</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-inicio')">Volver atrás</a>
-      </div>
-    </div>
+// Los 48 barrios oficiales de CABA
+const barriosCABA = [
+  "Agronomía", "Almagro", "Balvanera", "Barracas", "Belgrano", "Boedo", "Caballito", 
+  "Chacarita", "Coghlan", "Colegiales", "Constitución", "Flores", "Floresta", "La Boca", 
+  "La Paternal", "Liniers", "Mataderos", "Monte Castro", "Montserrat", "Nueva Pompeya", 
+  "Núñez", "Palermo", "Parque Avellaneda", "Parque Chacabuco", "Parque Chas", "Parque Patricios", 
+  "Puerto Madero", "Recoleta", "Retiro", "Saavedra", "San Cristóbal", "San Nicolás", 
+  "San Telmo", "Vélez Sársfield", "Versalles", "Villa Crespo", "Villa del Parque", 
+  "Villa Devoto", "Villa General Mitre", "Villa Lugano", "Villa Luro", "Villa Ortúzar", 
+  "Villa Pueyrredón", "Villa Real", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati"
+];
 
-    <!-- REGISTRO -->
-    <div id="pantalla-registro" class="screen">
-      <div class="card scrollable">
-        <h2>Crear Cuenta</h2>
-        <input type="text" class="input-field" placeholder="Apodo">
-        <input type="text" class="input-field" placeholder="Nombre Completo">
-        <input type="text" class="input-field" placeholder="Apellido Completo">
-        <input type="email" class="input-field" placeholder="Mail">
-        <input type="text" class="input-field" placeholder="Usuario">
-        <input type="password" id="reg-pass" class="input-field" placeholder="Contraseña">
-        <input type="password" id="reg-pass2" class="input-field" placeholder="Confirmar Contraseña">
-        <input type="number" class="input-field" placeholder="Edad">
-        <input type="text" class="input-field" placeholder="Localidad">
-        <input type="text" class="input-field" placeholder="Barrio">
-        <button class="btn btn-primary" onclick="validarRegistro()">Registrarme</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-inicio')">Volver atrás</a>
-      </div>
-    </div>
+// Función optimizada para actualizar Localidades y Barrios dinámicamente
+function actualizarLocalidadesYBarrios() {
+  const provinciaSelect = document.getElementById('select-provincia');
+  const localidadSelect = document.getElementById('select-localidad');
+  const barrioSelect = document.getElementById('select-barrio');
+  
+  if (!provinciaSelect || !localidadSelect || !barrioSelect) return;
 
-    <!-- MENÚ PRINCIPAL (HOME) -->
-    <div id="pantalla-home" class="screen">
-      <div class="card home-card">
-        <div class="header-home">
-          <div>
-            <h3>¡Hola, Jugador!</h3>
-          </div>
-          <div class="avatar-placeholder">👤</div>
-        </div>
+  const provinciaSeleccionada = provinciaSelect.value;
 
-        <div class="filters">
-          <button class="filter-btn">⚽ Fútbol 5</button>
-          <button class="filter-btn">🏐 Vóley</button>
-          <button class="filter-btn">🏀 Básquet</button>
-          <button class="filter-btn">🤾‍♂️ Handball</button>
-          <button class="filter-btn">🎾 Pádel</button>
-        </div>
+  // Limpiar selects dependientes
+  localidadSelect.innerHTML = '<option value="">Seleccionar Localidad</option>';
+  barrioSelect.innerHTML = '<option value="">Seleccionar Barrio / Zona</option>';
 
-        <div class="match-list">
-          <div class="match-card">
-            <strong>Falta 1 para F5</strong>
-            <p>📅 Sáb 28/03 - 18:00hs | 📍 Villa Devoto</p>
-            <button class="btn btn-primary btn-sm" onclick="alert('¡Te sumaste al partido!')">¡Me sumo!</button>
-          </div>
-        </div>
+  if (!provinciaSeleccionada) return;
 
-        <button class="btn btn-primary floating-btn" onclick="irA('pantalla-crear-partido')">+ Crear Partido</button>
-      </div>
-    </div>
+  // 1. Cargar Localidades
+  const localidades = localidadesPorProvincia[provinciaSeleccionada] || [];
+  localidades.forEach(loc => {
+    const opt = document.createElement('option');
+    opt.value = loc;
+    opt.textContent = loc;
+    localidadSelect.appendChild(opt);
+  });
 
-    <!-- CREAR PARTIDO (ACTUALIZADO) -->
-    <div id="pantalla-crear-partido" class="screen">
-      <div class="card scrollable">
-        <h2>Organizar Partido</h2>
-        
-        <!-- Deportes ordenados alfabéticamente y corregidos -->
-        <select class="input-field" id="select-deporte">
-          <option value="">Seleccionar Deporte</option>
-          <option>Ajedrez</option>
-          <option>Beach Handball</option>
-          <option>Básquet</option>
-          <option>Futsal</option>
-          <option>Fútbol 11</option>
-          <option>Fútbol 5</option>
-          <option>Fútbol 6</option>
-          <option>Fútbol 8</option>
-          <option>Fútbol Mixto</option>
-          <option>Golf</option>
-          <option>Handball</option>
-          <option>Hockey Césped</option>
-          <option>Hockey Hielo</option>
-          <option>Hockey Piso</option>
-          <option>Karting</option>
-          <option>Pádel</option>
-          <option>Ping Pong</option>
-          <option>Rugby</option>
-          <option>Tennis</option>
-          <option>Vóley</option>
-        </select>
+  // 2. Cargar Barrios (Regla: Si es CABA, lista de barrios; sino, repite la provincia)
+  if (provinciaSeleccionada === "CABA") {
+    barriosCABA.forEach(barrio => {
+      const opt = document.createElement('option');
+      opt.value = barrio;
+      opt.textContent = barrio;
+      barrioSelect.appendChild(opt);
+    });
+  } else {
+    const opt = document.createElement('option');
+    opt.value = provinciaSeleccionada;
+    opt.textContent = provinciaSeleccionada;
+    barrioSelect.appendChild(opt);
+    barrioSelect.value = provinciaSeleccionada;
+  }
+}
 
-        <!-- Provincia -->
-        <select class="input-field" id="select-provincia" onchange="actualizarLocalidadesYBarrios()">
-          <option value="">Seleccionar Provincia</option>
-          <option value="Buenos Aires">Buenos Aires</option>
-          <option value="CABA">Capital Federal (CABA)</option>
-          <option value="Catamarca">Catamarca</option>
-          <option value="Chaco">Chaco</option>
-          <option value="Chubut">Chubut</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Corrientes">Corrientes</option>
-          <option value="Entre Ríos">Entre Ríos</option>
-          <option value="Formosa">Formosa</option>
-          <option value="Jujuy">Jujuy</option>
-          <option value="La Pampa">La Pampa</option>
-          <option value="La Rioja">La Rioja</option>
-          <option value="Mendoza">Mendoza</option>
-          <option value="Misiones">Misiones</option>
-          <option value="Neuquén">Neuquén</option>
-          <option value="Río Negro">Río Negro</option>
-          <option value="Salta">Salta</option>
-          <option value="San Juan">San Juan</option>
-          <option value="San Luis">San Luis</option>
-          <option value="Santa Cruz">Santa Cruz</option>
-          <option value="Santa Fe">Santa Fe</option>
-          <option value="Santiago del Estero">Santiago del Estero</option>
-          <option value="Tierra del Fuego">Tierra del Fuego</option>
-          <option value="Tucumán">Tucumán</option>
-        </select>
+// Validación de Registro
+function validarRegistro() {
+  const p1 = document.getElementById('reg-pass');
+  const p2 = document.getElementById('reg-pass2');
 
-        <!-- Localidad -->
-        <select class="input-field" id="select-localidad">
-          <option value="">Seleccionar Localidad</option>
-        </select>
+  if (!p1 || !p2) return;
 
-        <!-- Barrio (Separado) -->
-        <select class="input-field" id="select-barrio">
-          <option value="">Seleccionar Barrio / Zona</option>
-        </select>
+  if (!p1.value || !p2.value) {
+    alert("Por favor completa las contraseñas.");
+    return;
+  }
 
-        <!-- Dirección (Separada de barrio) -->
-        <input type="text" class="input-field" placeholder="Dirección exacta (ej. Av. Corrientes 1234)">
-
-        <!-- Fecha y Hora -->
-        <input type="datetime-local" class="input-field">
-
-        <!-- Jugadores faltantes -->
-        <input type="number" class="input-field" placeholder="¿Cuántos jugadores faltan?">
-
-        <!-- Valor con icono de $ -->
-        <div class="input-group">
-          <span class="currency-symbol">$</span>
-          <input type="number" class="input-field input-with-symbol" placeholder="Valor de la cancha">
-        </div>
-
-        <p class="warning-text">⚠️ El valor se cobrará para reservar. Sin devolución si se cancela el mismo día (aviso previo de 24hs para reembolso).</p>
-        
-        <textarea class="input-field" placeholder="Nivel / Observaciones (ej: F5 masculino, nivel medio)"></textarea>
-        
-        <button class="btn btn-primary" onclick="alert('¡Partido publicado con éxito!'); irA('pantalla-home');">Publicar Partido</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-home')">Volver al menú</a>
-      </div>
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
-</body>
-</html>
+  if (p1.value !== p2.value) {
+    alert("Las contraseñas no coinciden. Verificalas.");
+    return;
+  }
+  
+  alert("¡Cuenta creada con éxito!");
+  irA('pantalla-home');
+}
