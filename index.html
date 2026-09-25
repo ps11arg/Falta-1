@@ -1,219 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Falta 1</title>
-    <!-- Tipografía Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falta 1 - Splash Screen</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #0b0e14; /* Fondo oscuro acorde al logo */
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .active { display: flex; }
+
+    /* Logo inicial */
+    .logo-img {
+      width: 280px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(204, 255, 0, 0.2);
+    }
+
+    /* Estilos de textos */
+    h1 { font-size: 2rem; color: #ccff00; margin-bottom: 15px; }
+    p { font-size: 1.2rem; color: #e0e0e0; max-width: 400px; line-height: 1.5; }
+
+    /* Spinner */
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.1);
+      border-top: 5px solid #ccff00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
 </head>
 <body>
 
-    <!-- PANTALLA 1: Bienvenida / Splash Screen -->
-    <section id="screen-welcome" class="screen active-screen welcome-screen">
-        <div class="welcome-content">
-            <h1 class="logo-title">Falta 1</h1>
-            <p class="welcome-text">
-                ¡Te damos la bienvenida a <strong>Falta 1</strong>!<br>
-                La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.
-            </p>
-            <div class="loading-box">
-                <div class="spinner"></div>
-                <p class="loading-subtext">Cargando... el match deportivo que necesitabas ⚽🏐</p>
-            </div>
-        </div>
-    </section>
+  <!-- PASO 1: LOGO -->
+  <div id="step1" class="step active">
+    <img src="Logo Falta Uno.jfif" alt="Falta Uno Logo" class="logo-img">
+  </div>
 
-    <!-- PANTALLA 2: Elección de Acceso -->
-    <section id="screen-access-choice" class="screen hidden-screen">
-        <div class="container center-container">
-            <div class="card choice-card">
-                <h2>¿Cómo querés ingresar?</h2>
-                <p class="choice-subtitle">Elegí una opción para continuar</p>
-                <div class="button-stack">
-                    <button id="btn-goto-login" class="btn-primary btn-large">Iniciar Sesión</button>
-                    <button id="btn-goto-register" class="btn-outline btn-large">Crear Cuenta</button>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- PASO 2: BIENVENIDA -->
+  <div id="step2" class="step">
+    <h1>¡Te damos la bienvenida a Falta 1!</h1>
+    <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
+  </div>
 
-    <!-- PANTALLA 3A: Iniciar Sesión -->
-    <section id="screen-login" class="screen hidden-screen">
-        <div class="container">
-            <div class="card">
-                <h2>Iniciar Sesión</h2>
-                <form id="form-login">
-                    <div class="form-group">
-                        <label for="login-user">Usuario o Email:</label>
-                        <input type="text" id="login-user" placeholder="Tu usuario o mail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Contraseña:</label>
-                        <input type="password" id="login-password" placeholder="******" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Ingresar</button>
-                </form>
-                <div class="screen-footer">
-                    <button class="btn-link btn-back-choice">← Volver atrás</button>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- PASO 3: MATCH DEPORTIVO -->
+  <div id="step3" class="step">
+    <p style="font-size: 1.5rem; color: #ccff00; font-weight: bold;">
+      El match deportivo que necesitabas... ⚽🏀🏐
+    </p>
+  </div>
 
-    <!-- PANTALLA 3B: Crear Cuenta -->
-    <section id="screen-register" class="screen hidden-screen">
-        <div class="container">
-            <div class="card">
-                <h2>Crear Cuenta</h2>
-                <form id="form-register">
-                    <div class="form-group">
-                        <label for="reg-apodo">Apodo:</label>
-                        <input type="text" id="reg-apodo" placeholder="Ej: El Ruso, Pablito" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="reg-nombre">Nombre Completo:</label>
-                            <input type="text" id="reg-nombre" placeholder="Tu nombre" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-apellido">Apellido Completo:</label>
-                            <input type="text" id="reg-apellido" placeholder="Tu apellido" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-email">Mail:</label>
-                        <input type="email" id="reg-email" placeholder="tu@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-username">Usuario:</label>
-                        <input type="text" id="reg-username" placeholder="Nombre de usuario" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-password">Contraseña:</label>
-                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required minlength="6">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-password-confirm">Repetir Contraseña:</label>
-                        <input type="password" id="reg-password-confirm" placeholder="Repetí tu contraseña" required minlength="6">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group flex-1">
-                            <label for="reg-edad">Edad:</label>
-                            <input type="number" id="reg-edad" placeholder="Ej: 25" required min="10" max="99">
-                        </div>
-                        <div class="form-group flex-2">
-                            <label for="reg-localidad">Localidad:</label>
-                            <input type="text" id="reg-localidad" placeholder="Ej: CABA" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-barrio">Barrio:</label>
-                        <input type="text" id="reg-barrio" placeholder="Ej: La Paternal, Palermo, Olivos" required>
-                    </div>
+  <!-- PASO 4: CARGANDO -->
+  <div id="step4" class="step">
+    <div class="spinner"></div>
+    <p>Cargando...</p>
+  </div>
 
-                    <button type="submit" class="btn-primary">Registrarme</button>
-                </form>
-                <div class="screen-footer">
-                    <button class="btn-link btn-back-choice">← Volver atrás</button>
-                </div>
-            </div>
-        </div>
-    </section>
+  <script>
+    function showStep(stepNumber) {
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step' + stepNumber).classList.add('active');
+    }
 
-    <!-- PANTALLA 4: Home / Partidos Disponibles -->
-    <section id="screen-home" class="screen hidden-screen">
-        <header class="app-header">
-            <h1>Falta 1</h1>
-            <button id="btn-logout" class="btn-secondary">Cerrar Sesión</button>
-        </header>
+    // Temporizadores de 3 segundos por etapa (3000ms)
+    setTimeout(() => showStep(2), 3000); // 3 seg -> Bienvenida
+    setTimeout(() => showStep(3), 6000); // 6 seg -> Match deportivo
+    setTimeout(() => showStep(4), 9000); // 9 seg -> Cargando...
 
-        <main class="container">
-            <div class="user-welcome">
-                <p>¡Hola, <strong id="user-display-apodo">Jugador</strong>! 👋</p>
-            </div>
+    // 12 seg -> Redirección a la pantalla de Login / Registro
+    setTimeout(() => {
+      // Reemplazar esta URL por tu pantalla de inicio de sesión
+      window.location.href = "login.html"; 
+    }, 12000);
+  </script>
 
-            <div class="home-action-bar">
-                <h2>Partidos Disponibles</h2>
-                <button id="btn-goto-create-match" class="btn-primary btn-sm">+ Publicar Partido</button>
-            </div>
-
-            <div id="lista-partidos" class="partidos-grid">
-                <p class="loading-text">Cargando partidos...</p>
-            </div>
-        </main>
-    </section>
-
-    <!-- PANTALLA 5: Crear / Publicar Partido -->
-    <section id="screen-create-match" class="screen hidden-screen">
-        <header class="app-header">
-            <h1>Publicar Partido</h1>
-            <button class="btn-secondary btn-back-home">Volver</button>
-        </header>
-
-        <main class="container">
-            <div class="card">
-                <h2>Detalles del Partido</h2>
-                <form id="form-create-match">
-                    <div class="form-group">
-                        <label for="match-title">Título del Partido:</label>
-                        <input type="text" id="match-title" placeholder="Ej: F5 Masculino - Buscamos 1 Arquero" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="match-sport">Deporte:</label>
-                        <select id="match-sport" class="form-select" required>
-                            <option value="">Selecciona un deporte</option>
-                            <option value="Fútbol">Fútbol</option>
-                            <option value="Vóley">Vóley</option>
-                            <option value="Básquet">Básquet</option>
-                            <option value="Handball">Handball</option>
-                            <option value="Pádel">Pádel</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="match-location">Cancha / Ubicación:</label>
-                        <input type="text" id="match-location" placeholder="Ej: Club La Paternal (Av. San Martín 2500)" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group flex-1">
-                            <label for="match-date">Fecha y Hora:</label>
-                            <input type="text" id="match-date" placeholder="Ej: Hoy 20:00 hs" required>
-                        </div>
-                        <div class="form-group flex-1">
-                            <label for="match-needed">¿Cuántos faltan?:</label>
-                            <input type="number" id="match-needed" min="1" max="20" value="1" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="match-price">Valor de la reserva por jugador ($):</label>
-                        <input type="number" id="match-price" placeholder="Ej: 3500" required min="0">
-                        <small class="form-hint">Monto cobrado por la app para reservar la plaza en la cancha.</small>
-                    </div>
-
-                    <!-- Cuadro informativo de política de cancelación -->
-                    <div class="policy-notice">
-                        <p class="policy-title">⚠️ Política de Reserva y Cancelación:</p>
-                        <p class="policy-body">
-                            • La app cobra la reserva al jugador para asegurar el lugar en el partido.<br>
-                            • <strong>Devolución total:</strong> Solo si el jugador cancela con <strong>24 horas o más de anticipación</strong> al horario del partido.<br>
-                            • <strong>Sin devolución:</strong> Si se cancela el mismo día del partido.
-                        </p>
-                    </div>
-
-                    <button type="submit" class="btn-primary">Publicar Partido</button>
-                </form>
-            </div>
-        </main>
-    </section>
-
-    <script src="app.js"></script>
 </body>
 </html>
