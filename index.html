@@ -4,85 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Falta 1</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background-color: #0b0e14;
-      color: #ffffff;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .step {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn 0.4s ease-in-out;
-    }
-
-    .active { display: flex; }
-
-    /* Logo inicial */
-    .logo-img {
-      width: 260px;
-      height: auto;
-      border-radius: 24px;
-      box-shadow: 0 0 30px rgba(204, 255, 0, 0.25);
-    }
-
-    /* Textos */
-    h1 { font-size: 1.8rem; color: #ccff00; margin-bottom: 12px; }
-    p { font-size: 1.1rem; color: #e0e0e0; line-height: 1.5; }
-
-    /* Spinner */
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(255, 255, 255, 0.1);
-      border-top: 4px solid #ccff00;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
-    }
-
-    /* Pantalla 1: Login / Registro */
-    .login-box {
-      width: 100%;
-      background: #141824;
-      padding: 25px;
-      border-radius: 16px;
-      border: 1px solid #22293a;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .btn-primary { background-color: #ccff00; color: #000000; }
-    .btn-secondary { background-color: transparent; color: #ffffff; border: 1px solid #ffffff; }
-
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -100,7 +22,7 @@
 
     <!-- PASO 3 (6 a 9s): MATCH DEPORTIVO -->
     <div id="step3" class="step">
-      <p style="font-size: 1.4rem; color: #ccff00; font-weight: bold;">
+      <p class="highlight-text">
         El match deportivo que necesitabas... ⚽🏀🏐
       </p>
     </div>
@@ -111,29 +33,102 @@
       <p>Cargando...</p>
     </div>
 
-    <!-- PASO 5 (12s en adelante): PANTALLA 1 - INICIO DE SESIÓN / REGISTRO -->
+    <!-- PASO 5: PANTALLA 1 - INICIO DE SESIÓN / REGISTRO -->
     <div id="step5" class="step">
-      <div class="login-box">
+      <div class="card">
         <h1>FALTA 1</h1>
-        <p style="margin-bottom: 20px; font-size: 0.95rem;">Ingresá a tu cuenta para jugar</p>
-        <button class="btn btn-primary">Iniciar Sesión</button>
-        <button class="btn btn-secondary">Crear Cuenta</button>
+        <p class="subtitle">El match deportivo que necesitabas</p>
+        <button class="btn btn-primary" onclick="mostrarSeccion('login')">Iniciar Sesión</button>
+        <button class="btn btn-secondary" onclick="mostrarSeccion('registro')">Crear Cuenta</button>
       </div>
     </div>
+
+    <!-- FORMULARIO: INICIAR SESIÓN -->
+    <div id="seccion-login" class="step">
+      <div class="card">
+        <h2>Iniciar Sesión</h2>
+        <input type="text" class="input-field" placeholder="Usuario o Email">
+        <input type="password" class="input-field" placeholder="Contraseña">
+        <button class="btn btn-primary" onclick="irAlHome()">Ingresar</button>
+        <a href="#" class="link-text" onclick="mostrarSeccion('menu-principal')">¿Olvidaste tu contraseña?</a>
+        <a href="#" class="link-text" onclick="mostrarSeccion('step5')">Volver atrás</a>
+      </div>
+    </div>
+
+    <!-- FORMULARIO: CREAR CUENTA -->
+    <div id="seccion-registro" class="step">
+      <div class="card scrollable">
+        <h2>Crear Cuenta</h2>
+        <input type="text" class="input-field" placeholder="Apodo">
+        <input type="text" class="input-field" placeholder="Nombre Completo">
+        <input type="text" class="input-field" placeholder="Apellido Completo">
+        <input type="email" class="input-field" placeholder="Mail">
+        <input type="text" class="input-field" placeholder="Usuario">
+        <input type="password" id="pass" class="input-field" placeholder="Contraseña">
+        <input type="password" id="confirmPass" class="input-field" placeholder="Confirmar Contraseña">
+        <input type="number" class="input-field" placeholder="Edad">
+        <input type="text" class="input-field" placeholder="Localidad">
+        <input type="text" class="input-field" placeholder="Barrio">
+        <button class="btn btn-primary" onclick="validarRegistro()">Registrarme</button>
+        <a href="#" class="link-text" onclick="mostrarSeccion('step5')">Volver atrás</a>
+      </div>
+    </div>
+
+    <!-- PANTALLA 4: MENÚ / HOME PRINCIPAL -->
+    <div id="menu-principal" class="step">
+      <div class="card home-card">
+        <div class="header-home">
+          <div>
+            <h3>¡Hola, [Apodo]!</h3>
+          </div>
+          <div class="avatar-placeholder">👤</div>
+        </div>
+
+        <div class="filters">
+          <button class="filter-btn">⚽ Fútbol</button>
+          <button class="filter-btn">🏐 Vóley</button>
+          <button class="filter-btn">🏀 Básquet</button>
+          <button class="filter-btn">🤾‍♂️ Handball</button>
+          <button class="filter-btn">🎾 Pádel</button>
+        </div>
+
+        <div class="match-list">
+          <div class="match-card">
+            <strong>Falta 1 para F5</strong>
+            <p>📅 Sáb 28/03 - 18:00hs | 📍 Villa Devoto</p>
+            <button class="btn btn-primary btn-sm">¡Me sumo!</button>
+          </div>
+        </div>
+
+        <button class="btn btn-accent floating-btn" onclick="mostrarSeccion('crear-partido')">+ Crear Partido</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 5: CREAR / PUBLICAR PARTIDO -->
+    <div id="crear-partido" class="step">
+      <div class="card scrollable">
+        <h2>Organizar Partido</h2>
+        <select class="input-field">
+          <option>Seleccionar Deporte</option>
+          <option>Fútbol</option>
+          <option>Vóley</option>
+          <option>Básquet</option>
+          <option>Handball</option>
+          <option>Pádel</option>
+        </select>
+        <input type="text" class="input-field" placeholder="Zona / Barrio / Dirección de la cancha">
+        <input type="datetime-local" class="input-field">
+        <input type="number" class="input-field" placeholder="¿Cuántos jugadores faltan?">
+        <input type="number" class="input-field" placeholder="Valor de la cancha ($)">
+        <p class="warning-text">⚠️ El valor se cobrará para reservar. Sin devolución si se cancela el mismo día (aviso previo de 24hs para reembolso).</p>
+        <textarea class="input-field" placeholder="Nivel / Observaciones (ej: F5 masculino, nivel medio)"></textarea>
+        <button class="btn btn-primary" onclick="alert('¡Partido publicado con éxito!'); mostrarSeccion('menu-principal');">Publicar Partido</button>
+        <a href="#" class="link-text" onclick="mostrarSeccion('menu-principal')">Volver al menú</a>
+      </div>
+    </div>
+
   </div>
 
-  <script>
-    function showStep(stepNumber) {
-      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-      document.getElementById('step' + stepNumber).classList.add('active');
-    }
-
-    // Tiempos exactos de transicion (3 segundos por paso)
-    setTimeout(() => showStep(2), 3000); // 3 seg -> Bienvenida
-    setTimeout(() => showStep(3), 6000); // 6 seg -> Match deportivo
-    setTimeout(() => showStep(4), 9000); // 9 seg -> Cargando...
-    setTimeout(() => showStep(5), 12000); // 12 seg -> Pantalla 1 (Login / Registro)
-  </script>
-
+  <script src="app.js"></script>
 </body>
 </html>
