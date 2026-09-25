@@ -110,6 +110,29 @@ p, .subtitle {
   border-color: #ccff00;
 }
 
+/* Contenedor especial para el input de Valor con símbolo de $ */
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ccff00;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 5;
+}
+
+.input-with-symbol {
+  margin-top: 0 !important;
+  padding-left: 30px !important;
+}
+
 .btn {
   width: 100%;
   padding: 12px;
