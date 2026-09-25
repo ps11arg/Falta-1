@@ -10,53 +10,52 @@
 
   <div class="container">
     <!-- PASO 1 (0 a 3s): LOGO EN GRANDE -->
-    <div id="step1" class="step active">
+    <div id="step1" class="screen active">
       <img src="logo.jpg" alt="Falta 1 Logo" class="logo-img">
     </div>
 
     <!-- PASO 2 (3 a 6s): BIENVENIDA -->
-    <div id="step2" class="step">
+    <div id="step2" class="screen">
       <h1>¡Te damos la bienvenida a Falta 1!</h1>
       <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
     </div>
 
     <!-- PASO 3 (6 a 9s): MATCH DEPORTIVO -->
-    <div id="step3" class="step">
+    <div id="step3" class="screen">
       <p class="highlight-text">
         El match deportivo que necesitabas... ⚽🏀🏐
       </p>
     </div>
 
     <!-- PASO 4 (9 a 12s): CARGANDO... -->
-    <div id="step4" class="step">
+    <div id="step4" class="screen">
       <div class="spinner"></div>
       <p>Cargando...</p>
     </div>
 
-    <!-- PASO 5: PANTALLA 1 - INICIO DE SESIÓN / REGISTRO -->
-    <div id="step5" class="step">
+    <!-- PANTALLA 5: INICIO DE SESIÓN / REGISTRO -->
+    <div id="step5" class="screen">
       <div class="card">
         <h1>FALTA 1</h1>
         <p class="subtitle">El match deportivo que necesitabas</p>
-        <button class="btn btn-primary" onclick="mostrarSeccion('login')">Iniciar Sesión</button>
-        <button class="btn btn-secondary" onclick="mostrarSeccion('registro')">Crear Cuenta</button>
+        <button class="btn btn-primary" type="button" onclick="cambiarPantalla('seccion-login')">Iniciar Sesión</button>
+        <button class="btn btn-secondary" type="button" onclick="cambiarPantalla('seccion-registro')">Crear Cuenta</button>
       </div>
     </div>
 
     <!-- FORMULARIO: INICIAR SESIÓN -->
-    <div id="seccion-login" class="step">
+    <div id="seccion-login" class="screen">
       <div class="card">
         <h2>Iniciar Sesión</h2>
         <input type="text" class="input-field" placeholder="Usuario o Email">
         <input type="password" class="input-field" placeholder="Contraseña">
-        <button class="btn btn-primary" onclick="irAlHome()">Ingresar</button>
-        <a href="#" class="link-text" onclick="mostrarSeccion('menu-principal')">¿Olvidaste tu contraseña?</a>
-        <a href="#" class="link-text" onclick="mostrarSeccion('step5')">Volver atrás</a>
+        <button class="btn btn-primary" type="button" onclick="cambiarPantalla('menu-principal')">Ingresar</button>
+        <a href="#" class="link-text" onclick="cambiarPantalla('step5')">Volver atrás</a>
       </div>
     </div>
 
     <!-- FORMULARIO: CREAR CUENTA -->
-    <div id="seccion-registro" class="step">
+    <div id="seccion-registro" class="screen">
       <div class="card scrollable">
         <h2>Crear Cuenta</h2>
         <input type="text" class="input-field" placeholder="Apodo">
@@ -69,17 +68,17 @@
         <input type="number" class="input-field" placeholder="Edad">
         <input type="text" class="input-field" placeholder="Localidad">
         <input type="text" class="input-field" placeholder="Barrio">
-        <button class="btn btn-primary" onclick="validarRegistro()">Registrarme</button>
-        <a href="#" class="link-text" onclick="mostrarSeccion('step5')">Volver atrás</a>
+        <button class="btn btn-primary" type="button" onclick="validarRegistro()">Registrarme</button>
+        <a href="#" class="link-text" onclick="cambiarPantalla('step5')">Volver atrás</a>
       </div>
     </div>
 
     <!-- PANTALLA 4: MENÚ / HOME PRINCIPAL -->
-    <div id="menu-principal" class="step">
+    <div id="menu-principal" class="screen">
       <div class="card home-card">
         <div class="header-home">
           <div>
-            <h3>¡Hola, [Apodo]!</h3>
+            <h3>¡Hola, Jugador!</h3>
           </div>
           <div class="avatar-placeholder">👤</div>
         </div>
@@ -96,16 +95,16 @@
           <div class="match-card">
             <strong>Falta 1 para F5</strong>
             <p>📅 Sáb 28/03 - 18:00hs | 📍 Villa Devoto</p>
-            <button class="btn btn-primary btn-sm">¡Me sumo!</button>
+            <button class="btn btn-primary btn-sm" type="button">¡Me sumo!</button>
           </div>
         </div>
 
-        <button class="btn btn-accent floating-btn" onclick="mostrarSeccion('crear-partido')">+ Crear Partido</button>
+        <button class="btn btn-accent floating-btn btn-primary" type="button" onclick="cambiarPantalla('crear-partido')">+ Crear Partido</button>
       </div>
     </div>
 
     <!-- PANTALLA 5: CREAR / PUBLICAR PARTIDO -->
-    <div id="crear-partido" class="step">
+    <div id="crear-partido" class="screen">
       <div class="card scrollable">
         <h2>Organizar Partido</h2>
         <select class="input-field">
@@ -122,8 +121,8 @@
         <input type="number" class="input-field" placeholder="Valor de la cancha ($)">
         <p class="warning-text">⚠️ El valor se cobrará para reservar. Sin devolución si se cancela el mismo día (aviso previo de 24hs para reembolso).</p>
         <textarea class="input-field" placeholder="Nivel / Observaciones (ej: F5 masculino, nivel medio)"></textarea>
-        <button class="btn btn-primary" onclick="alert('¡Partido publicado con éxito!'); mostrarSeccion('menu-principal');">Publicar Partido</button>
-        <a href="#" class="link-text" onclick="mostrarSeccion('menu-principal')">Volver al menú</a>
+        <button class="btn btn-primary" type="button" onclick="alert('¡Partido publicado con éxito!'); cambiarPantalla('menu-principal');">Publicar Partido</button>
+        <a href="#" class="link-text" onclick="cambiarPantalla('menu-principal')">Volver al menú</a>
       </div>
     </div>
 
