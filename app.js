@@ -1,3 +1,4 @@
+JavaScript
 const SUPABASE_URL = 'https://bagbocjuulqmdbejnnwf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_pIK7X2Gjv9e3jG2Fnooqfw_sOalXYVS';
 
