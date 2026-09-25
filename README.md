@@ -1,13 +1,14 @@
-# Falta 1 - Plataforma de Match Deportivo
+# FALTA 1
 
-## Descripción del Proyecto
-Aplicación pensada para conectar en tiempo real a equipos o partidos de deportes amateurs que sufren la falta de jugadores o rivales con jugadores libres disponibles en la zona.
+## Proyecto de App Deportiva
 
-## Funcionalidades del MVP (Producto Mínimo Viable)
-- Registro e inicio de sesión de usuarios (Jugadores y Capitanes/Organizadores).
-- Publicación de partidos con necesidades específicas (deporte, cantidad de jugadores o rivales faltantes, ubicación y horario).
-- Muro interactivo con filtros por deporte y zona para postularse a partidos.
-- Gestión de solicitudes y confirmación de matches.
+**FALTA 1** es una aplicación diseñada para conectar jugadores y equipos amateurs. Facilita la organización de partidos, torneos y ligas, asegurando que nunca te quedes sin jugar por falta de participantes.
 
----
-© Creado y desarrollado por Pablo David Suárez. Todos los derechos reservados.
+## Funcionalidades Core:
+- Reclutamiento de Jugadores ("¡Falta Uno!")
+- Administración Completa de Torneos (Fixture, Posiciones, Estadísticas)
+- Perfiles de Jugador y Sistema de Reputación
+
+## Cómo Ejecutar el Proyecto en GitHub Pages:
+1. Sube los archivos `index.html` y `logo.jpg` (o tu imagen con el nombre correspondiente) a la raíz de tu repositorio de GitHub.
+2. Activa GitHub Pages en la configuración del repositorio (`Settings > Pages`, seleccionando la rama `main` y la raíz `/ (root)`).
