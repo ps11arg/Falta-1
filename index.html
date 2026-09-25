@@ -1,3 +1,4 @@
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -32,7 +33,7 @@
       <p>Cargando...</p>
     </div>
 
-    <!-- PASO 5: INICIO / REGISTRO (Pantalla Principal Inicial) -->
+    <!-- PASO 5: INICIO / REGISTRO -->
     <div id="pantalla-inicio" class="screen">
       <div class="card">
         <h1>FALTA 1</h1>
@@ -83,7 +84,7 @@
         </div>
 
         <div class="filters">
-          <button class="filter-btn">⚽ Fútbol</button>
+          <button class="filter-btn">⚽ Fútbol 5</button>
           <button class="filter-btn">🏐 Vóley</button>
           <button class="filter-btn">🏀 Básquet</button>
           <button class="filter-btn">🤾‍♂️ Handball</button>
@@ -102,24 +103,94 @@
       </div>
     </div>
 
-    <!-- CREAR PARTIDO -->
+    <!-- CREAR PARTIDO (ACTUALIZADO) -->
     <div id="pantalla-crear-partido" class="screen">
       <div class="card scrollable">
         <h2>Organizar Partido</h2>
-        <select class="input-field">
-          <option>Seleccionar Deporte</option>
-          <option>Fútbol</option>
-          <option>Vóley</option>
+        
+        <!-- Deportes ordenados alfabéticamente y corregidos -->
+        <select class="input-field" id="select-deporte">
+          <option value="">Seleccionar Deporte</option>
+          <option>Ajedrez</option>
+          <option>Beach Handball</option>
           <option>Básquet</option>
+          <option>Futsal</option>
+          <option>Fútbol 11</option>
+          <option>Fútbol 5</option>
+          <option>Fútbol 6</option>
+          <option>Fútbol 8</option>
+          <option>Fútbol Mixto</option>
+          <option>Golf</option>
           <option>Handball</option>
+          <option>Hockey Césped</option>
+          <option>Hockey Hielo</option>
+          <option>Hockey Piso</option>
+          <option>Karting</option>
           <option>Pádel</option>
+          <option>Ping Pong</option>
+          <option>Rugby</option>
+          <option>Tennis</option>
+          <option>Vóley</option>
         </select>
-        <input type="text" class="input-field" placeholder="Zona / Barrio / Dirección">
+
+        <!-- Provincia -->
+        <select class="input-field" id="select-provincia" onchange="actualizarLocalidadesYBarrios()">
+          <option value="">Seleccionar Provincia</option>
+          <option value="Buenos Aires">Buenos Aires</option>
+          <option value="CABA">Capital Federal (CABA)</option>
+          <option value="Catamarca">Catamarca</option>
+          <option value="Chaco">Chaco</option>
+          <option value="Chubut">Chubut</option>
+          <option value="Córdoba">Córdoba</option>
+          <option value="Corrientes">Corrientes</option>
+          <option value="Entre Ríos">Entre Ríos</option>
+          <option value="Formosa">Formosa</option>
+          <option value="Jujuy">Jujuy</option>
+          <option value="La Pampa">La Pampa</option>
+          <option value="La Rioja">La Rioja</option>
+          <option value="Mendoza">Mendoza</option>
+          <option value="Misiones">Misiones</option>
+          <option value="Neuquén">Neuquén</option>
+          <option value="Río Negro">Río Negro</option>
+          <option value="Salta">Salta</option>
+          <option value="San Juan">San Juan</option>
+          <option value="San Luis">San Luis</option>
+          <option value="Santa Cruz">Santa Cruz</option>
+          <option value="Santa Fe">Santa Fe</option>
+          <option value="Santiago del Estero">Santiago del Estero</option>
+          <option value="Tierra del Fuego">Tierra del Fuego</option>
+          <option value="Tucumán">Tucumán</option>
+        </select>
+
+        <!-- Localidad -->
+        <select class="input-field" id="select-localidad">
+          <option value="">Seleccionar Localidad</option>
+        </select>
+
+        <!-- Barrio (Separado) -->
+        <select class="input-field" id="select-barrio">
+          <option value="">Seleccionar Barrio / Zona</option>
+        </select>
+
+        <!-- Dirección (Separada de barrio) -->
+        <input type="text" class="input-field" placeholder="Dirección exacta (ej. Av. Corrientes 1234)">
+
+        <!-- Fecha y Hora -->
         <input type="datetime-local" class="input-field">
+
+        <!-- Jugadores faltantes -->
         <input type="number" class="input-field" placeholder="¿Cuántos jugadores faltan?">
-        <input type="number" class="input-field" placeholder="Valor de la cancha ($)">
+
+        <!-- Valor con icono de $ -->
+        <div class="input-group">
+          <span class="currency-symbol">$</span>
+          <input type="number" class="input-field input-with-symbol" placeholder="Valor de la cancha">
+        </div>
+
         <p class="warning-text">⚠️ El valor se cobrará para reservar. Sin devolución si se cancela el mismo día (aviso previo de 24hs para reembolso).</p>
+        
         <textarea class="input-field" placeholder="Nivel / Observaciones (ej: F5 masculino, nivel medio)"></textarea>
+        
         <button class="btn btn-primary" onclick="alert('¡Partido publicado con éxito!'); irA('pantalla-home');">Publicar Partido</button>
         <a href="#" class="link-text" onclick="irA('pantalla-home')">Volver al menú</a>
       </div>
