@@ -1,16 +1,36 @@
-function showStep(stepNumber) {
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  document.getElementById('step' + stepNumber).classList.add('active');
+// Variable para controlar si el splash screen ya terminó
+let splashTerminado = false;
+
+function cambiarPantalla(idPantalla) {
+  // Oculta todas las pantallas
+  document.querySelectorAll('.screen').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  // Muestra la pantalla solicitada
+  const destino = document.getElementById(idPantalla);
+  if (destino) {
+    destino.classList.add('active');
+  }
 }
 
-function mostrarSeccion(idSeccion) {
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  document.getElementById(idSeccion).classList.add('active');
-}
+// Secuencia automática de los 12 segundos iniciales
+setTimeout(() => {
+  if (!splashTerminado) cambiarPantalla('step2'); // 3s: Bienvenida
+}, 3000);
 
-function irAlHome() {
-  mostrarSeccion('menu-principal');
-}
+setTimeout(() => {
+  if (!splashTerminado) cambiarPantalla('step3'); // 6s: Match deportivo
+}, 6000);
+
+setTimeout(() => {
+  if (!splashTerminado) cambiarPantalla('step4'); // 9s: Cargando
+}, 9000);
+
+setTimeout(() => {
+  splashTerminado = true;
+  cambiarPantalla('step5'); // 12s: Pantalla de Login / Registro
+}, 12000);
 
 function validarRegistro() {
   const p1 = document.getElementById('pass').value;
@@ -22,11 +42,5 @@ function validarRegistro() {
   }
   
   alert("¡Cuenta creada con éxito!");
-  mostrarSeccion('menu-principal');
+  cambiarPantalla('menu-principal');
 }
-
-// Secuencia inicial del Splash Screen (12 segundos en total)
-setTimeout(() => showStep(2), 3000);   // Bienvenida
-setTimeout(() => showStep(3), 6000);   // Match deportivo
-setTimeout(() => showStep(4), 9000);   // Cargando...
-setTimeout(() => showStep(5), 12000);  // Pantalla de Login / Registro
