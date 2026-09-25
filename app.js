@@ -8,20 +8,15 @@ function irA(idPantalla) {
     temporizadores.forEach(t => clearTimeout(t));
   }
 
-  // Ocultar todas las pantallas
   document.querySelectorAll('.screen').forEach(el => {
     el.classList.remove('active');
   });
 
-  // Mostrar la pantalla de destino si existe
   const destino = document.getElementById(idPantalla);
   if (destino) {
     destino.classList.add('active');
-    // Forzar scroll al inicio de la tarjeta al cambiar de pantalla
     const card = destino.querySelector('.card');
     if (card) card.scrollTop = 0;
-  } else {
-    console.warn("No se encontró la pantalla con ID:", idPantalla);
   }
 }
 
@@ -66,7 +61,7 @@ const localidadesPorProvincia = {
   "Tucumán": ["San Miguel de Tucumán", "Tafí Viejo", "Concepción"]
 };
 
-// Los 48 barrios oficiales de CABA
+// Barrios oficiales de CABA
 const barriosCABA = [
   "Agronomía", "Almagro", "Balvanera", "Barracas", "Belgrano", "Boedo", "Caballito", 
   "Chacarita", "Coghlan", "Colegiales", "Constitución", "Flores", "Floresta", "La Boca", 
@@ -78,7 +73,7 @@ const barriosCABA = [
   "Villa Pueyrredón", "Villa Real", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati"
 ];
 
-// Función optimizada para actualizar Localidades y Barrios dinámicamente
+// Función para actualizar Localidades y Barrios dinámicamente
 function actualizarLocalidadesYBarrios() {
   const provinciaSelect = document.getElementById('select-provincia');
   const localidadSelect = document.getElementById('select-localidad');
@@ -103,7 +98,7 @@ function actualizarLocalidadesYBarrios() {
     localidadSelect.appendChild(opt);
   });
 
-  // 2. Cargar Barrios (Regla: Si es CABA, lista de barrios; sino, repite la provincia)
+  // 2. Cargar Barrios (Si es CABA, lista de barrios; si es otra provincia, repite la provincia)
   if (provinciaSeleccionada === "CABA") {
     barriosCABA.forEach(barrio => {
       const opt = document.createElement('option');
