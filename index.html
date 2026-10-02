@@ -1,22 +1,60 @@
----
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falta 1 - Encuentra tu partido</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header>
+    <h1>⚽ Falta 1</h1>
+    <p>¿Te falta uno para el partido? ¡Publicalo acá o sumate a uno!</p>
+  </header>
 
-### 2. Texto para `.gitignore` (El archivo que tenés abierto en pantalla)
-Copiá y pegá esto dentro del archivo **`.gitignore`** para evitar subir claves privadas o archivos innecesarios a GitHub:
+  <main class="container">
+    <section class="form-section">
+      <h2>Publicar un partido</h2>
+      <form id="match-form">
+        <div class="form-group">
+          <label for="sport">Deporte / Tipo de partido:</label>
+          <input type="text" id="sport" placeholder="Ej: Fútbol 5, Pádel, Básquet" required>
+        </div>
 
-```gitignore
-# Archivos de entorno y claves secretas
-.env
-.env.local
-*.env
+        <div class="form-group">
+          <label for="location">Cancha / Zona / Club:</label>
+          <input type="text" id="location" placeholder="Ej: Club Palermo, CABA" required>
+        </div>
 
-# Archivos del sistema operativo
-.DS_Store
-Thumbs.db
+        <div class="form-group">
+          <label for="date-time">Fecha y Hora:</label>
+          <input type="datetime-local" id="date-time" required>
+        </div>
 
-# Configuración de editores de código
-.vscode/
-.idea/
+        <div class="form-group">
+          <label for="players-needed">Faltan (cantidad de jugadores):</label>
+          <input type="number" id="players-needed" min="1" max="22" value="1" required>
+        </div>
 
-# Node / Dependencias (si usás paquetes de npm)
-node_modules/
-*.log
+        <div class="form-group">
+          <label for="contact">Teléfono / WhatsApp de contacto:</label>
+          <input type="text" id="contact" placeholder="Ej: +54 9 11 1234-5678" required>
+        </div>
+
+        <button type="submit" id="submit-btn">Publicar partido</button>
+      </form>
+    </section>
+
+    <section class="matches-section">
+      <h2>Partidos disponibles</h2>
+      <div id="matches-list">
+        <p class="loading">Cargando partidos...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
