@@ -1,10 +1,12 @@
 // Configuración de Supabase para Falta 1
 const SUPABASE_URL = 'https://bagbocjuulqmdbejnnwf.supabase.co';
-// Reemplazá este texto con la clave completa que copiaste de Supabase
-const SUPABASE_ANON_KEY = 'sb_publishable_plK7X2Gjv9e3jG2Fi';
+const SUPABASE_ANON_KEY = 'sb_publishable_plK7X2Gjv9e3jG2Fnooqfw_s0a1x';
 
 // Inicializar el cliente de Supabase
-const _supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+let _supabase = null;
+if (window.supabase) {
+  _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
 
 // Elementos del DOM
 const matchForm = document.getElementById('match-form');
@@ -23,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchMatches() {
   if (!_supabase) {
     console.error('Supabase no está configurado correctamente.');
+    if (matchesList) {
+      matchesList.innerHTML = '<p class="error-msg">Error de conexión con Supabase.</p>';
+    }
     return;
   }
 
@@ -30,20 +35,27 @@ async function fetchMatches() {
     matchesList.innerHTML = '<p class="loading">Cargando partidos...</p>';
   }
 
-  const { data: matches, error } = await _supabase
-    .from('matches')
-    .select('*')
-    .order('created_at', { ascending: false });
+  try {
+    const { data: matches, error } = await _supabase
+      .from('matches')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error al traer los partidos:', error.message);
-    if (matchesList) {
-      matchesList.innerHTML = '<p class="error-msg">Error al cargar los partidos.</p>';
+    if (error) {
+      console.error('Error al traer los partidos:', error.message);
+      if (matchesList) {
+        matchesList.innerHTML = `<p class="error-msg">Error: ${error.message}</p>`;
+      }
+      return;
     }
-    return;
-  }
 
-  renderMatches(matches);
+    renderMatches(matches);
+  } catch (err) {
+    console.error('Excepción al conectar con Supabase:', err);
+    if (matchesList) {
+      matchesList.innerHTML = '<p class="error-msg">Error inesperado de red.</p>';
+    }
+  }
 }
 
 // Renderizar las tarjetas de partidos en la página
@@ -61,7 +73,6 @@ function renderMatches(matches) {
     const card = document.createElement('div');
     card.className = 'match-card';
 
-    // Formatear la fecha
     const matchDate = new Date(match.date_time);
     const dateFormatted = matchDate.toLocaleDateString('es-AR', {
       weekday: 'short',
@@ -79,7 +90,7 @@ function renderMatches(matches) {
       <div class="match-body">
         <p><strong>📍 Cancha / Zona:</strong> ${escapeHtml(match.location)}</p>
         <p><strong>📅 Día y Hora:</strong> ${dateFormatted}</p>
-        <p><strong>📞 Contacto:</strong> <a href="https://wa.me/${escapeHtml(match.contact.replace(/\D/g, ''))}" target="_blank" rel="noopener noreferrer">${escapeHtml(match.contact)}</a></p>
+        <p><strong>📞 Contacto:</strong> <a href="https://wa.me/${escapeHtml(match.contact ? match.contact.replace(/\D/g, '') : '')}" target="_blank" rel="noopener noreferrer">${escapeHtml(match.contact)}</a></p>
       </div>
     `;
 
