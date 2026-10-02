@@ -1,202 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falta 1</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+---
 
-  <div class="container">
-    
-    <!-- PASO 1: LOGO (0s - 3s) -->
-    <div id="pantalla-logo" class="screen active">
-      <img src="logo.jpg" alt="Falta 1 Logo" class="logo-img">
-    </div>
+### 2. Texto para `.gitignore` (El archivo que tenés abierto en pantalla)
+Copiá y pegá esto dentro del archivo **`.gitignore`** para evitar subir claves privadas o archivos innecesarios a GitHub:
 
-    <!-- PASO 2: BIENVENIDA (3s - 6s) -->
-    <div id="pantalla-bienvenida" class="screen">
-      <h1>¡Te damos la bienvenida a Falta 1!</h1>
-      <p>La app para encontrar tu partido ideal, sumar gente y no quedarte afuera jamás.</p>
-    </div>
+```gitignore
+# Archivos de entorno y claves secretas
+.env
+.env.local
+*.env
 
-    <!-- PASO 3: MATCH DEPORTIVO (6s - 9s) -->
-    <div id="pantalla-match" class="screen">
-      <p class="highlight-text">El match deportivo que necesitabas... ⚽🏀🏐</p>
-    </div>
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
 
-    <!-- PASO 4: CARGANDO (9s - 12s) -->
-    <div id="pantalla-cargando" class="screen">
-      <div class="spinner"></div>
-      <p>Cargando...</p>
-    </div>
+# Configuración de editores de código
+.vscode/
+.idea/
 
-    <!-- PASO 5: INICIO / REGISTRO -->
-    <div id="pantalla-inicio" class="screen">
-      <div class="card">
-        <h1>FALTA 1</h1>
-        <p class="subtitle">El match deportivo que necesitabas</p>
-        <button class="btn btn-primary" onclick="irA('pantalla-login')">Iniciar Sesión</button>
-        <button class="btn btn-secondary" onclick="irA('pantalla-registro')">Crear Cuenta</button>
-      </div>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="pantalla-login" class="screen">
-      <div class="card">
-        <h2>Iniciar Sesión</h2>
-        <input type="text" class="input-field" placeholder="Usuario o Email">
-        <input type="password" class="input-field" placeholder="Contraseña">
-        <button class="btn btn-primary" onclick="irA('pantalla-home')">Ingresar</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-inicio')">Volver atrás</a>
-      </div>
-    </div>
-
-    <!-- REGISTRO -->
-    <div id="pantalla-registro" class="screen">
-      <div class="card scrollable">
-        <h2>Crear Cuenta</h2>
-        <input type="text" class="input-field" placeholder="Apodo">
-        <input type="text" class="input-field" placeholder="Nombre Completo">
-        <input type="text" class="input-field" placeholder="Apellido Completo">
-        <input type="email" class="input-field" placeholder="Mail">
-        <input type="text" class="input-field" placeholder="Usuario">
-        <input type="password" id="reg-pass" class="input-field" placeholder="Contraseña">
-        <input type="password" id="reg-pass2" class="input-field" placeholder="Confirmar Contraseña">
-        <input type="number" class="input-field" placeholder="Edad">
-        <input type="text" class="input-field" placeholder="Localidad">
-        <input type="text" class="input-field" placeholder="Barrio">
-        <button class="btn btn-primary" onclick="validarRegistro()">Registrarme</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-inicio')">Volver atrás</a>
-      </div>
-    </div>
-
-    <!-- MENÚ PRINCIPAL (HOME) -->
-    <div id="pantalla-home" class="screen">
-      <div class="card home-card">
-        <div class="header-home">
-          <div>
-            <h3>¡Hola, Jugador!</h3>
-          </div>
-          <div class="avatar-placeholder">👤</div>
-        </div>
-
-        <div class="filters">
-          <button class="filter-btn">⚽ Fútbol 5</button>
-          <button class="filter-btn">🏐 Vóley</button>
-          <button class="filter-btn">🏀 Básquet</button>
-          <button class="filter-btn">🤾‍♂️ Handball</button>
-          <button class="filter-btn">🎾 Pádel</button>
-        </div>
-
-        <div class="match-list">
-          <div class="match-card">
-            <strong>Falta 1 para F5</strong>
-            <p>📅 Sáb 28/03 - 18:00hs | 📍 Villa Devoto</p>
-            <button class="btn btn-primary btn-sm" onclick="alert('¡Te sumaste al partido!')">¡Me sumo!</button>
-          </div>
-        </div>
-
-        <button class="btn btn-primary floating-btn" onclick="irA('pantalla-crear-partido')">+ Crear Partido</button>
-      </div>
-    </div>
-
-    <!-- CREAR PARTIDO -->
-    <div id="pantalla-crear-partido" class="screen">
-      <div class="card scrollable">
-        <h2>Organizar Partido</h2>
-        
-        <!-- Deportes ordenados alfabéticamente y corregidos -->
-        <select class="input-field" id="select-deporte">
-          <option value="">Seleccionar Deporte</option>
-          <option>Ajedrez</option>
-          <option>Beach Handball</option>
-          <option>Básquet</option>
-          <option>Futsal</option>
-          <option>Fútbol 11</option>
-          <option>Fútbol 5</option>
-          <option>Fútbol 6</option>
-          <option>Fútbol 8</option>
-          <option>Fútbol Mixto</option>
-          <option>Golf</option>
-          <option>Handball</option>
-          <option>Hockey Césped</option>
-          <option>Hockey Hielo</option>
-          <option>Hockey Piso</option>
-          <option>Karting</option>
-          <option>Pádel</option>
-          <option>Ping Pong</option>
-          <option>Rugby</option>
-          <option>Tennis</option>
-          <option>Vóley</option>
-        </select>
-
-        <!-- Provincia -->
-        <select class="input-field" id="select-provincia" onchange="actualizarLocalidadesYBarrios()">
-          <option value="">Seleccionar Provincia</option>
-          <option value="Buenos Aires">Buenos Aires</option>
-          <option value="CABA">Capital Federal (CABA)</option>
-          <option value="Catamarca">Catamarca</option>
-          <option value="Chaco">Chaco</option>
-          <option value="Chubut">Chubut</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Corrientes">Corrientes</option>
-          <option value="Entre Ríos">Entre Ríos</option>
-          <option value="Formosa">Formosa</option>
-          <option value="Jujuy">Jujuy</option>
-          <option value="La Pampa">La Pampa</option>
-          <option value="La Rioja">La Rioja</option>
-          <option value="Mendoza">Mendoza</option>
-          <option value="Misiones">Misiones</option>
-          <option value="Neuquén">Neuquén</option>
-          <option value="Río Negro">Río Negro</option>
-          <option value="Salta">Salta</option>
-          <option value="San Juan">San Juan</option>
-          <option value="San Luis">San Luis</option>
-          <option value="Santa Cruz">Santa Cruz</option>
-          <option value="Santa Fe">Santa Fe</option>
-          <option value="Santiago del Estero">Santiago del Estero</option>
-          <option value="Tierra del Fuego">Tierra del Fuego</option>
-          <option value="Tucumán">Tucumán</option>
-        </select>
-
-        <!-- Localidad -->
-        <select class="input-field" id="select-localidad">
-          <option value="">Seleccionar Localidad</option>
-        </select>
-
-        <!-- Barrio (Separado) -->
-        <select class="input-field" id="select-barrio">
-          <option value="">Seleccionar Barrio / Zona</option>
-        </select>
-
-        <!-- Dirección (Separada) -->
-        <input type="text" class="input-field" placeholder="Dirección exacta (ej. Av. Corrientes 1234)">
-
-        <!-- Fecha y Hora -->
-        <input type="datetime-local" class="input-field">
-
-        <!-- Jugadores faltantes -->
-        <input type="number" class="input-field" placeholder="¿Cuántos jugadores faltan?">
-
-        <!-- Valor con símbolo de $ -->
-        <div class="input-group">
-          <span class="currency-symbol">$</span>
-          <input type="number" class="input-field input-with-symbol" placeholder="Valor de la cancha">
-        </div>
-
-        <p class="warning-text">⚠️ El valor se cobrará para reservar. Sin devolución si se cancela el mismo día (aviso previo de 24hs para reembolso).</p>
-        
-        <textarea class="input-field" placeholder="Nivel / Observaciones (ej: F5 masculino, nivel medio)"></textarea>
-        
-        <button class="btn btn-primary" onclick="alert('¡Partido publicado con éxito!'); irA('pantalla-home');">Publicar Partido</button>
-        <a href="#" class="link-text" onclick="irA('pantalla-home')">Volver al menú</a>
-      </div>
-    </div>
-
-  </div>
-
-  <script src="app.js"></script>
-</body>
-</html>
+# Node / Dependencias (si usás paquetes de npm)
+node_modules/
+*.log

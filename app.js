@@ -1,137 +1,136 @@
-let splashActivo = true;
-let temporizadores = [];
+// Configuración de Supabase para Falta 1
+const SUPABASE_URL = 'https://bagbocjuulqmdbejnnwf.supabase.co';
+// Reemplazá este texto con la clave completa que copiaste de Supabase
+const SUPABASE_ANON_KEY = 'sb_publishable_plK7X2Gjv9e3jG2Fi';
 
-// Función para cambiar de pantalla de manera limpia
-function irA(idPantalla) {
-  if (splashActivo) {
-    splashActivo = false;
-    temporizadores.forEach(t => clearTimeout(t));
+// Inicializar el cliente de Supabase
+const _supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+// Elementos del DOM
+const matchForm = document.getElementById('match-form');
+const matchesList = document.getElementById('matches-list');
+
+// Cargar la lista al iniciar la aplicación
+document.addEventListener('DOMContentLoaded', () => {
+  fetchMatches();
+
+  if (matchForm) {
+    matchForm.addEventListener('submit', handleFormSubmit);
+  }
+});
+
+// Obtener los partidos desde la base de datos Supabase
+async function fetchMatches() {
+  if (!_supabase) {
+    console.error('Supabase no está configurado correctamente.');
+    return;
   }
 
-  document.querySelectorAll('.screen').forEach(el => {
-    el.classList.remove('active');
-  });
-
-  const destino = document.getElementById(idPantalla);
-  if (destino) {
-    destino.classList.add('active');
-    const card = destino.querySelector('.card');
-    if (card) card.scrollTop = 0;
+  if (matchesList) {
+    matchesList.innerHTML = '<p class="loading">Cargando partidos...</p>';
   }
-}
 
-// Secuencia automática inicial de los 12 segundos del Splash
-if (splashActivo) {
-  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-bienvenida'); }, 3000));
-  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-match'); }, 6000));
-  temporizadores.push(setTimeout(() => { if(splashActivo) irA('pantalla-cargando'); }, 9000));
-  temporizadores.push(setTimeout(() => { 
-    if(splashActivo) {
-      splashActivo = false;
-      irA('pantalla-inicio'); 
+  const { data: matches, error } = await _supabase
+    .from('matches')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error al traer los partidos:', error.message);
+    if (matchesList) {
+      matchesList.innerHTML = '<p class="error-msg">Error al cargar los partidos.</p>';
     }
-  }, 12000));
+    return;
+  }
+
+  renderMatches(matches);
 }
 
-// Base de datos de Localidades por Provincia Argentina
-const localidadesPorProvincia = {
-  "Buenos Aires": ["La Plata", "Mar del Plata", "Bahía Blanca", "San Isidro", "Tigre", "Quilmes", "Avellaneda", "Lanús", "Morón", "San Martín"],
-  "CABA": ["Capital Federal"],
-  "Catamarca": ["San Fernando del Valle de Catamarca", "Andalgalá", "Tinogasta"],
-  "Chaco": ["Resistencia", "Sáenz Peña", "Villa Ángela"],
-  "Chubut": ["Comodoro Rivadavia", "Trelew", "Puerto Madryn", "Rawson"],
-  "Córdoba": ["Córdoba Capital", "Villa Carlos Paz", "Río Cuarto", "San Francisco", "Villa María"],
-  "Corrientes": ["Corrientes Capital", "Goya", "Paso de los Libres"],
-  "Entre Ríos": ["Paraná", "Concordia", "Gualeguaychú", "Concepción del Uruguay"],
-  "Formosa": ["Formosa Capital", "Clorinda"],
-  "Jujuy": ["San Salvador de Jujuy", "San Pedro", "Palpalá"],
-  "La Pampa": ["Santa Rosa", "General Pico"],
-  "La Rioja": ["La Rioja Capital", "Chilecito"],
-  "Mendoza": ["Mendoza Capital", "San Rafael", "Godoy Cruz", "Guaymallén"],
-  "Misiones": ["Posadas", "Puerto Iguazú", "Oberá", "Eldorado"],
-  "Neuquén": ["Neuquén Capital", "San Martín de los Andes", "Cutral Có", "Plottier"],
-  "Río Negro": ["Bariloche", "General Roca", "Cipolletti", "Viedma"],
-  "Salta": ["Salta Capital", "San Ramón de la Nueva Orán", "Tartagal"],
-  "San Juan": ["San Juan Capital", "Rawson", "Rivadavia"],
-  "San Luis": ["San Luis Capital", "Villa Mercedes"],
-  "Santa Cruz": ["Río Gallegos", "Caleta Olivia", "El Calafate"],
-  "Santa Fe": ["Rosario", "Santa Fe Capital", "Rafaela", "Venado Tuerto"],
-  "Santiago del Estero": ["Santiago del Estero Capital", "La Banda", "Termas de Río Hondo"],
-  "Tierra del Fuego": ["Ushuaia", "Río Grande"],
-  "Tucumán": ["San Miguel de Tucumán", "Tafí Viejo", "Concepción"]
-};
+// Renderizar las tarjetas de partidos en la página
+function renderMatches(matches) {
+  if (!matchesList) return;
 
-// Barrios oficiales de CABA
-const barriosCABA = [
-  "Agronomía", "Almagro", "Balvanera", "Barracas", "Belgrano", "Boedo", "Caballito", 
-  "Chacarita", "Coghlan", "Colegiales", "Constitución", "Flores", "Floresta", "La Boca", 
-  "La Paternal", "Liniers", "Mataderos", "Monte Castro", "Montserrat", "Nueva Pompeya", 
-  "Núñez", "Palermo", "Parque Avellaneda", "Parque Chacabuco", "Parque Chas", "Parque Patricios", 
-  "Puerto Madero", "Recoleta", "Retiro", "Saavedra", "San Cristóbal", "San Nicolás", 
-  "San Telmo", "Vélez Sársfield", "Versalles", "Villa Crespo", "Villa del Parque", 
-  "Villa Devoto", "Villa General Mitre", "Villa Lugano", "Villa Luro", "Villa Ortúzar", 
-  "Villa Pueyrredón", "Villa Real", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati"
-];
+  if (!matches || matches.length === 0) {
+    matchesList.innerHTML = '<p class="no-matches">No hay partidos publicados aún. ¡Sé el primero en crear uno!</p>';
+    return;
+  }
 
-// Función para actualizar Localidades y Barrios dinámicamente
-function actualizarLocalidadesYBarrios() {
-  const provinciaSelect = document.getElementById('select-provincia');
-  const localidadSelect = document.getElementById('select-localidad');
-  const barrioSelect = document.getElementById('select-barrio');
-  
-  if (!provinciaSelect || !localidadSelect || !barrioSelect) return;
+  matchesList.innerHTML = '';
 
-  const provinciaSeleccionada = provinciaSelect.value;
+  matches.forEach(match => {
+    const card = document.createElement('div');
+    card.className = 'match-card';
 
-  // Limpiar selects dependientes
-  localidadSelect.innerHTML = '<option value="">Seleccionar Localidad</option>';
-  barrioSelect.innerHTML = '<option value="">Seleccionar Barrio / Zona</option>';
-
-  if (!provinciaSeleccionada) return;
-
-  // 1. Cargar Localidades
-  const localidades = localidadesPorProvincia[provinciaSeleccionada] || [];
-  localidades.forEach(loc => {
-    const opt = document.createElement('option');
-    opt.value = loc;
-    opt.textContent = loc;
-    localidadSelect.appendChild(opt);
-  });
-
-  // 2. Cargar Barrios (Si es CABA, lista de barrios; si es otra provincia, repite la provincia)
-  if (provinciaSeleccionada === "CABA") {
-    barriosCABA.forEach(barrio => {
-      const opt = document.createElement('option');
-      opt.value = barrio;
-      opt.textContent = barrio;
-      barrioSelect.appendChild(opt);
+    // Formatear la fecha
+    const matchDate = new Date(match.date_time);
+    const dateFormatted = matchDate.toLocaleDateString('es-AR', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
     });
+
+    card.innerHTML = `
+      <div class="match-header">
+        <h3>⚽ ${escapeHtml(match.sport)}</h3>
+        <span class="badge">${match.players_needed} ${match.players_needed === 1 ? 'jugador' : 'jugadores'}</span>
+      </div>
+      <div class="match-body">
+        <p><strong>📍 Cancha / Zona:</strong> ${escapeHtml(match.location)}</p>
+        <p><strong>📅 Día y Hora:</strong> ${dateFormatted}</p>
+        <p><strong>📞 Contacto:</strong> <a href="https://wa.me/${escapeHtml(match.contact.replace(/\D/g, ''))}" target="_blank" rel="noopener noreferrer">${escapeHtml(match.contact)}</a></p>
+      </div>
+    `;
+
+    matchesList.appendChild(card);
+  });
+}
+
+// Guardar un nuevo partido en Supabase
+async function handleFormSubmit(e) {
+  e.preventDefault();
+
+  const sport = document.getElementById('sport')?.value.trim();
+  const location = document.getElementById('location')?.value.trim();
+  const dateTime = document.getElementById('date-time')?.value;
+  const playersNeeded = parseInt(document.getElementById('players-needed')?.value, 10);
+  const contact = document.getElementById('contact')?.value.trim();
+
+  if (!_supabase) {
+    alert('No hay conexión con la base de datos.');
+    return;
+  }
+
+  const newMatch = {
+    sport: sport,
+    location: location,
+    date_time: dateTime,
+    players_needed: playersNeeded,
+    contact: contact
+  };
+
+  const { error } = await _supabase
+    .from('matches')
+    .insert([newMatch]);
+
+  if (error) {
+    console.error('Error al guardar:', error.message);
+    alert('Error al publicar el partido: ' + error.message);
   } else {
-    const opt = document.createElement('option');
-    opt.value = provinciaSeleccionada;
-    opt.textContent = provinciaSeleccionada;
-    barrioSelect.appendChild(opt);
-    barrioSelect.value = provinciaSeleccionada;
+    alert('¡Partido publicado exitosamente!');
+    matchForm.reset();
+    fetchMatches();
   }
 }
 
-// Validación de Registro
-function validarRegistro() {
-  const p1 = document.getElementById('reg-pass');
-  const p2 = document.getElementById('reg-pass2');
-
-  if (!p1 || !p2) return;
-
-  if (!p1.value || !p2.value) {
-    alert("Por favor completa las contraseñas.");
-    return;
-  }
-
-  if (p1.value !== p2.value) {
-    alert("Las contraseñas no coinciden. Verificalas.");
-    return;
-  }
-  
-  alert("¡Cuenta creada con éxito!");
-  irA('pantalla-home');
+// Función auxiliar para evitar inyección HTML
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

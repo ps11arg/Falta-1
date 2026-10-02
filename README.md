@@ -1,14 +1,23 @@
-# FALTA 1
+# Falta 1 ⚽
 
-## Proyecto de App Deportiva
+**Falta 1** es una aplicación web diseñada para organizar partidos deportivos, conectar jugadores y completar equipos de forma rápida y sencilla.
 
-**FALTA 1** es una aplicación diseñada para conectar jugadores y equipos amateurs. Facilita la organización de partidos, torneos y ligas, asegurando que nunca te quedes sin jugar por falta de participantes.
+## 🚀 Características
+* **Organización de partidos:** Creá o unite a partidos que necesiten jugadores.
+* **Gestión en tiempo real:** Actualización de convocatorias y cupos disponibles.
+* **Interfaz intuitiva:** Navegación simple y adaptada a dispositivos móviles.
 
-## Funcionalidades Core:
-- Reclutamiento de Jugadores ("¡Falta Uno!")
-- Administración Completa de Torneos (Fixture, Posiciones, Estadísticas)
-- Perfiles de Jugador y Sistema de Reputación
+## 🛠️ Tecnologías utilizadas
+* **Frontend:** HTML5, CSS3, JavaScript
+* **Base de datos y Backend:** Supabase
+* **Hosting:** GitHub Pages
 
-## Cómo Ejecutar el Proyecto en GitHub Pages:
-1. Sube los archivos `index.html` y `logo.jpg` (o tu imagen con el nombre correspondiente) a la raíz de tu repositorio de GitHub.
-2. Activa GitHub Pages en la configuración del repositorio (`Settings > Pages`, seleccionando la rama `main` y la raíz `/ (root)`).
+## 📁 Estructura del proyecto
+```text
+Falta-1/
+├── index.html       # Estructura principal de la web
+├── styles.css       # Estilos visuales
+├── app.js           # Lógica del frontend y conexión con Supabase
+├── Falta1.jfif      # Imagen / Logo del proyecto
+├── README.md        # Documentación del proyecto
+└── .gitignore       # Archivos excluidos del repositorio
